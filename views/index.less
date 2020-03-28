@@ -19,3 +19,53 @@ body {
     color: @black2;
     background-color: #f1f1f1;
 }
+
+// 操作框
+.operating {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+
+    .operating-container {
+        padding-top: 25px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .dividing-line {
+        height: 100%;
+        width: 1px;
+        background-color: #ddd;
+    }
+
+    .operating-filter {
+        border-bottom: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+
+        .dividing-line {
+            height: 32px;
+        }
+
+        .filter-btn {
+            height: 32px;
+        }
+    }
+
+    .operating-add {
+        border-bottom: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+
+        .dividing-line {
+            height: 50px;
+        }
+
+        .add-btn {
+            height: 50px;
+        }
+    }
+}
+
+// 列表
+.list {
+    padding: 130px 15px 15px 15px;
+}
