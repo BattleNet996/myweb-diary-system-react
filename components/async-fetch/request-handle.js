@@ -52,7 +52,7 @@ export const requestHandle = ({
     }
     if (method === 'post') {
         requestContent = parameter.body
-        requestUrl += queryToUrl(parameter.query)
+        requestConfig.body = JSON.stringify(parameter.body)
     }
 
     toast.show()

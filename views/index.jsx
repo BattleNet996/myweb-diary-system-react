@@ -1,9 +1,45 @@
+import fetch from './../components/async-fetch/fetch.js'
 import login from './../components/login.js';
 
-class MainComponent extends React.Component {
+import CONST from './const.js';
 
-    componentDidMount() {
-        login()
+class MainComponent extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            pageNo: 1,
+            dataTotal: 0,
+            sort: CONST.SORT.DEFAULTS,
+            dataType: CONST.DATA_TYPE.DEFAULTS,
+            tag: 'all',
+            list: CONST.DATA.DEMO
+        }
+
+        this.minTimestamp = 0
+        this.maxTimestamp = 0
+    }
+
+    async componentDidMount() {
+        await login()
+        await this.initList({ isRefresh: true })
+    }
+
+    async initList({ isRefresh }) {
+        const self = this
+        const { list, sort, pageNo } = this.state
+        const query = { sort, pageNo }
+
+        await fetch.get({
+            url: 'android/recordevent/list',
+            query
+        }).then(
+            ({ data }) => self.setState({
+                list: isRefresh ? data.list : list.concat(data.list),
+                dataTotal: data.total
+            }),
+            error => { }
+        )
     }
 
     render() {
@@ -11,7 +47,7 @@ class MainComponent extends React.Component {
             // 操作区域
             <div className="operating">
                 <div className="operating-container">
-                    
+
                     <div className="operating-filter flex-start-center">
                         <div className="filter-btn flex-center flex-rest">日期</div>
                         <div className="dividing-line"></div>

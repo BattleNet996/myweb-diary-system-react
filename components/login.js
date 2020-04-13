@@ -5,7 +5,7 @@ import {
     inputPopUpDestroy
 } from './input-popup.js';
 
-const showLogInput = () => new Promise((resolve, reject) => {
+const showLogInput = (resolve, reject) => {
     const inputHandle = password => {
         fetch.post({
             url: 'login/rejiejay',
@@ -32,14 +32,14 @@ const showLogInput = () => new Promise((resolve, reject) => {
         mustInput: true,
         defaultValue
     })
-})
+}
 
-const init = async() => {
+const init = () => new Promise((resolve, reject) => {
     let password = localStorage.getItem('rejiejay-diary-system-password')
 
-    if (!password) return showLogInput()
+    if (!password) return showLogInput(resolve, reject)
 
-    await fetch.post({
+    fetch.post({
         url: 'login/rejiejay',
         body: { password },
         hiddenError: true
@@ -48,9 +48,10 @@ const init = async() => {
             localStorage.setItem('rejiejay-diary-system-password', password)
             localStorage.setItem('rejiejay-diary-system-token', data.token)
             localStorage.setItem('rejiejay-diary-system-token-expired', data.tokenexpired)
+            resolve()
         },
-        error => showLogInput()
+        error => showLogInput(resolve, reject)
     )
-}
+})
 
 export default init
