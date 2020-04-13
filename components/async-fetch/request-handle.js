@@ -27,6 +27,7 @@ export let notHandleResult = false
 
 export let requestUrl = false
 export let requestConfig = false
+export let requestContent = false
 
 export const requestHandle = ({
     method,
@@ -42,11 +43,17 @@ export const requestHandle = ({
 
     requestConfig = {
         method: method.toLocaleUpperCase(),
-        headers: initHeaders()
+        headers: initHeaders(method === 'get' ? parameter.query : parameter.body)
     }
     requestUrl = `${config.origin}${parameter.url}`
-    if (method === 'get') requestUrl += queryToUrl(parameter.query)
-    if (method === 'post') requestConfig.body = JSON.stringify(parameter.body)
+    if (method === 'get') {
+        requestContent = parameter.query
+        requestUrl += queryToUrl(parameter.query)
+    }
+    if (method === 'post') {
+        requestContent = parameter.body
+        requestUrl += queryToUrl(parameter.query)
+    }
 
     toast.show()
 

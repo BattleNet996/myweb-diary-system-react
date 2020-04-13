@@ -7,24 +7,24 @@ import {
 
 const showLogInput = () => new Promise((resolve, reject) => {
     const inputHandle = password => {
-        fetch.get({
-            url: 'user/login',
-            query: {
-                name: 'rejiejay',
-                password: password
-            }
-        }).then(res => {
-            const token = res.data
-
-            localStorage.setItem('rejiejay-task-assist-token', token)
-            localStorage.setItem('rejiejay-task-assist-password', password)
-            inputPopUpDestroy()
-            toast.show('登录成功！')
-            resolve()
-        }, error => reject(error))
+        fetch.post({
+            url: 'login/rejiejay',
+            body: { password },
+            hiddenError: true
+        }).then(
+            ({ data }) => {
+                localStorage.setItem('rejiejay-diary-system-password', password)
+                localStorage.setItem('rejiejay-diary-system-token', data.token)
+                localStorage.setItem('rejiejay-diary-system-token-expired', data.tokenexpired)
+                resolve()
+                inputPopUpDestroy()
+                toast.show('登录成功！')
+            },
+            error => reject(error)
+        )
     }
 
-    const defaultValue = localStorage.getItem('rejiejay-task-assist-password')
+    const defaultValue = localStorage.getItem('rejiejay-diary-system-password')
 
     inputPopUp({
         title: '请输入登录密码?',
@@ -34,24 +34,21 @@ const showLogInput = () => new Promise((resolve, reject) => {
     })
 })
 
-const init = async () => {
-    let token = localStorage.getItem('rejiejay-task-assist-token')
-    let password = localStorage.getItem('rejiejay-task-assist-password')
+const init = async() => {
+    let password = localStorage.getItem('rejiejay-diary-system-password')
 
-    if (!token || !password) {
-        return showLogInput()
-    }
+    if (!password) return showLogInput()
 
-    await fetch.get({
-        url: 'user/verify',
-        query: {
-            verify: token
-        },
+    await fetch.post({
+        url: 'login/rejiejay',
+        body: { password },
         hiddenError: true
     }).then(
-        ({
-            data
-        }) => localStorage.setItem('rejiejay-task-assist-token', data),
+        ({ data }) => {
+            localStorage.setItem('rejiejay-diary-system-password', password)
+            localStorage.setItem('rejiejay-diary-system-token', data.token)
+            localStorage.setItem('rejiejay-diary-system-token-expired', data.tokenexpired)
+        },
         error => showLogInput()
     )
 }

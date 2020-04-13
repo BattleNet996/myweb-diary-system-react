@@ -12,5 +12,6 @@ npm start
 npm run build  
 
 # localStorage
-
-localStorage['token']  
+localStorage['rejiejay-diary-system-password']  
+localStorage['rejiejay-diary-system-token']  
+localStorage['rejiejay-diary-system-token-expired']  

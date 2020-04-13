@@ -1,6 +1,9 @@
+import login from './../components/login.js';
+
 class MainComponent extends React.Component {
 
     componentDidMount() {
+        login()
     }
 
     render() {
