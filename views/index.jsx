@@ -65,6 +65,15 @@ class MainComponent extends React.Component {
         )
     }
 
+    showMoreHandle() {
+        const self = this
+        const { pageNo } = this.state
+
+        this.setState({
+            pageNo: pageNo + 1
+        }, () => self.initList({}))
+    }
+
     renderEvent({ eventtitle, eventsituation, eventtarget, eventaction, eventresult, eventconclusion, week, timestamp }, key) {
         const getYYmmDDww = () => {
             const weeks = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
@@ -111,7 +120,10 @@ class MainComponent extends React.Component {
 
     render() {
         const self = this
-        const { list } = this.state
+        const { list, dataTotal } = this.state
+
+        let diff = dataTotal - list.length
+        diff = diff > 0 ? diff : 0
 
         return [
             // 操作区域
@@ -140,7 +152,14 @@ class MainComponent extends React.Component {
             <div className="list">{list.map((val, key) => {
                 if (val.type === 'record') return self.renderRecord(val, key)
                 if (val.type === 'event') return self.renderEvent(val, key)
-            })}</div>
+            })}</div>,
+
+            // 加载更多
+            <div className="load">
+                <div className="load-container flex-center"
+                    onClick={this.showMoreHandle.bind(this)}
+                >加载更多 ({diff})</div>
+            </div>
         ]
     }
 }
