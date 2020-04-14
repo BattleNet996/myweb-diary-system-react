@@ -1,9 +1,7 @@
 import fetch from './../components/async-fetch/fetch.js'
 import toast from './../components/toast.js'
-import {
-    inputPopUp,
-    inputPopUpDestroy
-} from './../components/input-popup.js';
+import { inputPopUp, inputPopUpDestroy } from './../components/input-popup.js';
+import { confirmPopUp } from './../components/confirm-popup.js';
 
 import CONST from './const.js';
 
@@ -58,11 +56,28 @@ class TagComponent extends React.Component {
                 query: { tag }
             }).then(res => {
                 self.initList()
-                toast.show('新增成功')
-            }, error => { })
+                inputPopUpDestroy()
+            }, error => inputPopUpDestroy())
         }
 
         inputPopUp({ title: '请输入新增标签', inputHandle })
+    }
+
+    delHandle(id) {
+        const self = this
+
+        const handle = () => fetch.get({
+            url: 'android/recordevent/tag/del',
+            query: { id }
+        }).then(
+            res => self.initList(),
+            error => { }
+        )
+
+        confirmPopUp({
+            title: `你确认要删除吗?`,
+            succeedHandle: handle
+        })
     }
 
     render() {
@@ -84,9 +99,14 @@ class TagComponent extends React.Component {
                     </div>
                     {list.map(({ tagname, tagid }, key) => (
                         <div className="list-item" key={key}>
-                            <div className="list-item-container flex-center"
-                                onClick={() => this.selectTagHandle(tagname)}
-                            >{tagname}</div>
+                            <div className="list-item-container flex-start-center">
+                                <div className="list-item-name flex-rest"
+                                    onClick={() => this.selectTagHandle(tagname)}
+                                >{tagname}</div>
+                                <div className="list-item-del"
+                                    onClick={() => this.delHandle(tagid)}
+                                >删除</div>
+                            </div>
                         </div>
                     ))}
                 </div>
