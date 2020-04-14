@@ -1,4 +1,9 @@
 import fetch from './../components/async-fetch/fetch.js'
+import toast from './../components/toast.js'
+import {
+    inputPopUp,
+    inputPopUpDestroy
+} from './../components/input-popup.js';
 
 import CONST from './const.js';
 
@@ -44,13 +49,31 @@ class TagComponent extends React.Component {
         this.hide()
     }
 
+    addHandle() {
+        const self = this
+
+        const inputHandle = tag => {
+            fetch.get({
+                url: 'android/recordevent/tag/add',
+                query: { tag }
+            }).then(res => {
+                self.initList()
+                toast.show('新增成功')
+            }, error => { })
+        }
+
+        inputPopUp({ title: '请输入新增标签', inputHandle })
+    }
+
     render() {
         const { isShow, list } = this.state
 
         return isShow ? (
             <div className="tag">
                 <div className="tag-add">
-                    <div className="tag-add-container flex-center">新建分类</div>
+                    <div className="tag-add-container flex-center"
+                        onClick={this.addHandle.bind(this)}
+                    >新建分类</div>
                 </div>
 
                 <div className="tag-list">
