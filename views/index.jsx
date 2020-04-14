@@ -29,14 +29,15 @@ class MainComponent extends React.Component {
 
     async initList({ isRefresh }) {
         const self = this
-        const { list, dataType, pageNo, sort } = this.state
+        const { list, dataType, pageNo, sort, tag } = this.state
 
         await fetch.get({
             url: 'android/recordevent/list',
             query: {
                 sort,
                 type: dataType,
-                pageNo
+                pageNo,
+                tag
             }
         }).then(
             ({ data }) => self.setState({
@@ -77,8 +78,16 @@ class MainComponent extends React.Component {
         })
     }
 
-    selectTagHandle() {
+    showTagHandle() {
         this.refs.tag.show()
+    }
+
+    selectTagHandle(tag) {
+        const self = this
+        this.setState({
+            pageNo: 1,
+            tag
+        }, () => self.initList({ isRefresh: true }))
     }
 
     showMoreHandle() {
@@ -185,7 +194,7 @@ class MainComponent extends React.Component {
                         <div className="filter-btn flex-center flex-rest">日期</div>
                         <div className="dividing-line"></div>
                         <div className="filter-btn flex-center flex-rest"
-                            onClick={this.selectTagHandle.bind(this)}
+                            onClick={this.showTagHandle.bind(this)}
                         >标签</div>
                         <div className="dividing-line"></div>
                         <div className="filter-btn flex-center flex-rest"
@@ -218,7 +227,9 @@ class MainComponent extends React.Component {
                 >加载更多 ({diff})</div>
             </div>,
 
-            <TagComponent ref='tag'></TagComponent>
+            <TagComponent ref='tag'
+                selectHandle={this.selectTagHandle.bind(this)}
+            ></TagComponent>
         ]
     }
 }
