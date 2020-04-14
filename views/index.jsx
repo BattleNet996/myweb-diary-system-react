@@ -2,6 +2,7 @@ import fetch from './../components/async-fetch/fetch.js'
 import login from './../components/login.js';
 import { dropDownSelectPopup } from './../components/drop-down-select-popup.js';
 
+import TagComponent from './tag.jsx';
 import CONST from './const.js';
 
 class MainComponent extends React.Component {
@@ -14,7 +15,7 @@ class MainComponent extends React.Component {
             sort: CONST.SORT.DEFAULTS.value,
             dataType: CONST.DATA_TYPE.DEFAULTS.value,
             tag: 'all',
-            list: CONST.DATA.DEMO
+            list: CONST.DATA.DEFAULTS
         }
 
         this.minTimestamp = 0
@@ -74,6 +75,10 @@ class MainComponent extends React.Component {
             list: Object.values(CONST.SORT),
             handle
         })
+    }
+
+    selectTagHandle() {
+        this.refs.tag.show()
     }
 
     showMoreHandle() {
@@ -179,7 +184,9 @@ class MainComponent extends React.Component {
                     <div className="operating-filter flex-start-center">
                         <div className="filter-btn flex-center flex-rest">日期</div>
                         <div className="dividing-line"></div>
-                        <div className="filter-btn flex-center flex-rest">标签</div>
+                        <div className="filter-btn flex-center flex-rest"
+                            onClick={this.selectTagHandle.bind(this)}
+                        >标签</div>
                         <div className="dividing-line"></div>
                         <div className="filter-btn flex-center flex-rest"
                             onClick={this.switchDataTypeHandle.bind(this)}
@@ -209,7 +216,9 @@ class MainComponent extends React.Component {
                 <div className="load-container flex-center"
                     onClick={this.showMoreHandle.bind(this)}
                 >加载更多 ({diff})</div>
-            </div>
+            </div>,
+
+            <TagComponent ref='tag'></TagComponent>
         ]
     }
 }

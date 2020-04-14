@@ -51,6 +51,13 @@ const CONST = {
             type: 'record',
             week: 2
         }]
+    },
+    TAG: {
+        DEFAULTS: [],
+        DEMO: [{
+            tagid: 58,
+            tagname: '标签名称',
+        }]
     }
 }
 
