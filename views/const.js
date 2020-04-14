@@ -1,8 +1,17 @@
 const CONST = {
     SORT: {
-        DEFAULTS: 'time',
-        TIME: 'time',
-        RANDOM: 'random'
+        DEFAULTS: {
+            value: 'time',
+            label: '默认排序'
+        },
+        TIME: {
+            value: 'time',
+            label: '时间排序'
+        },
+        RANDOM: {
+            value: 'random',
+            label: '随机排序'
+        }
     },
     DATA_TYPE: {
         DEFAULTS: {

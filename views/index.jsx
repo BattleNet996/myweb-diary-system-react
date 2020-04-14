@@ -11,7 +11,7 @@ class MainComponent extends React.Component {
         this.state = {
             pageNo: 1,
             dataTotal: 0,
-            sort: CONST.SORT.DEFAULTS,
+            sort: CONST.SORT.DEFAULTS.value,
             dataType: CONST.DATA_TYPE.DEFAULTS.value,
             tag: 'all',
             list: CONST.DATA.DEMO
@@ -28,15 +28,15 @@ class MainComponent extends React.Component {
 
     async initList({ isRefresh }) {
         const self = this
-        const { list, dataType, pageNo } = this.state
-        const query = {
-            type: dataType,
-            pageNo
-        }
+        const { list, dataType, pageNo, sort } = this.state
 
         await fetch.get({
             url: 'android/recordevent/list',
-            query
+            query: {
+                sort,
+                type: dataType,
+                pageNo
+            }
         }).then(
             ({ data }) => self.setState({
                 list: isRefresh ? data.list : list.concat(data.list),
@@ -57,6 +57,21 @@ class MainComponent extends React.Component {
         }
         dropDownSelectPopup({
             list: Object.values(CONST.DATA_TYPE),
+            handle
+        })
+    }
+
+    switchSortTypeHandle() {
+        const self = this
+        const handle = async ({ value, label }) => {
+            self.setState({
+                pageNo: 1,
+                sort: value
+            })
+            self.initList({ isRefresh: true })
+        }
+        dropDownSelectPopup({
+            list: Object.values(CONST.SORT),
             handle
         })
     }
@@ -139,7 +154,7 @@ class MainComponent extends React.Component {
 
     render() {
         const self = this
-        const { list, dataTotal, dataType } = this.state
+        const { list, dataTotal, dataType, sort } = this.state
 
         let diff = dataTotal - list.length
         diff = diff > 0 ? diff : 0
@@ -148,6 +163,12 @@ class MainComponent extends React.Component {
             if (dataType === CONST.DATA_TYPE.EVENT.value) return CONST.DATA_TYPE.EVENT.label
             if (dataType === CONST.DATA_TYPE.RECORD.value) return CONST.DATA_TYPE.RECORD.label
             if (dataType === CONST.DATA_TYPE.DEFAULTS.value) return CONST.DATA_TYPE.DEFAULTS.label
+        }
+
+        const renderSortType = () => {
+            if (sort === CONST.SORT.DEFAULTS.value) return CONST.SORT.DEFAULTS.label
+            if (sort === CONST.SORT.TIME.value) return CONST.SORT.TIME.label
+            if (sort === CONST.SORT.RANDOM.value) return CONST.SORT.RANDOM.label
         }
 
         return [
@@ -164,7 +185,9 @@ class MainComponent extends React.Component {
                             onClick={this.switchDataTypeHandle.bind(this)}
                         >{renderDataType()}</div>
                         <div className="dividing-line"></div>
-                        <div className="filter-btn flex-center flex-rest">时间排序</div>
+                        <div className="filter-btn flex-center flex-rest"
+                            onClick={this.switchSortTypeHandle.bind(this)}
+                        >{renderSortType()}</div>
                     </div>
 
                     <div className="operating-add flex-start-center">
