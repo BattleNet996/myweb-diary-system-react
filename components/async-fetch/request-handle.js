@@ -41,18 +41,18 @@ export const requestHandle = ({
     hiddenError = parameter.hiddenError ? true : false
     notHandleResult = parameter.notHandleResult ? true : false
 
-    requestConfig = {
-        method: method.toLocaleUpperCase(),
-        headers: initHeaders(method === 'get' ? parameter.query : parameter.body)
-    }
+    requestConfig = { method: method.toLocaleUpperCase() }
     requestUrl = `${config.origin}${parameter.url}`
     if (method === 'get') {
-        requestContent = parameter.query
-        requestUrl += queryToUrl(parameter.query)
+        let parame = queryToUrl(parameter.query)
+        requestUrl += parame
+        requestContent = parame ? parame.slice(1) : parame
+        requestConfig.headers = initHeaders({ request: requestContent })
     }
     if (method === 'post') {
         requestContent = parameter.body
         requestConfig.body = JSON.stringify(parameter.body)
+        requestConfig.headers = initHeaders({ request: parameter.body })
     }
 
     toast.show()
