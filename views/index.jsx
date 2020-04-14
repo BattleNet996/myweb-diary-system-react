@@ -1,5 +1,6 @@
 import fetch from './../components/async-fetch/fetch.js'
 import login from './../components/login.js';
+import { dropDownSelectPopup } from './../components/drop-down-select-popup.js';
 
 import CONST from './const.js';
 
@@ -11,7 +12,7 @@ class MainComponent extends React.Component {
             pageNo: 1,
             dataTotal: 0,
             sort: CONST.SORT.DEFAULTS,
-            dataType: CONST.DATA_TYPE.DEFAULTS,
+            dataType: CONST.DATA_TYPE.DEFAULTS.value,
             tag: 'all',
             list: CONST.DATA.DEMO
         }
@@ -27,8 +28,11 @@ class MainComponent extends React.Component {
 
     async initList({ isRefresh }) {
         const self = this
-        const { list, sort, pageNo } = this.state
-        const query = { sort, pageNo }
+        const { list, dataType, pageNo } = this.state
+        const query = {
+            type: dataType,
+            pageNo
+        }
 
         await fetch.get({
             url: 'android/recordevent/list',
@@ -40,6 +44,30 @@ class MainComponent extends React.Component {
             }),
             error => { }
         )
+    }
+
+    switchDataTypeHandle() {
+        const self = this
+        const handle = async ({ value, label }) => {
+            self.setState({
+                pageNo: 1,
+                dataType: value
+            })
+            self.initList({ isRefresh: true })
+        }
+        dropDownSelectPopup({
+            list: Object.values(CONST.DATA_TYPE),
+            handle
+        })
+    }
+
+    showMoreHandle() {
+        const self = this
+        const { pageNo } = this.state
+
+        this.setState({
+            pageNo: pageNo + 1
+        }, () => self.initList({}))
     }
 
     renderRecord({ recordtitle, recordmaterial, recordcontent, tag }, key) {
@@ -63,15 +91,6 @@ class MainComponent extends React.Component {
                 </div>
             </div>
         )
-    }
-
-    showMoreHandle() {
-        const self = this
-        const { pageNo } = this.state
-
-        this.setState({
-            pageNo: pageNo + 1
-        }, () => self.initList({}))
     }
 
     renderEvent({ eventtitle, eventsituation, eventtarget, eventaction, eventresult, eventconclusion, week, timestamp }, key) {
@@ -120,10 +139,16 @@ class MainComponent extends React.Component {
 
     render() {
         const self = this
-        const { list, dataTotal } = this.state
+        const { list, dataTotal, dataType } = this.state
 
         let diff = dataTotal - list.length
         diff = diff > 0 ? diff : 0
+
+        const renderDataType = () => {
+            if (dataType === CONST.DATA_TYPE.EVENT.value) return CONST.DATA_TYPE.EVENT.label
+            if (dataType === CONST.DATA_TYPE.RECORD.value) return CONST.DATA_TYPE.RECORD.label
+            if (dataType === CONST.DATA_TYPE.DEFAULTS.value) return CONST.DATA_TYPE.DEFAULTS.label
+        }
 
         return [
             // 操作区域
@@ -135,7 +160,9 @@ class MainComponent extends React.Component {
                         <div className="dividing-line"></div>
                         <div className="filter-btn flex-center flex-rest">标签</div>
                         <div className="dividing-line"></div>
-                        <div className="filter-btn flex-center flex-rest">数据类型</div>
+                        <div className="filter-btn flex-center flex-rest"
+                            onClick={this.switchDataTypeHandle.bind(this)}
+                        >{renderDataType()}</div>
                         <div className="dividing-line"></div>
                         <div className="filter-btn flex-center flex-rest">时间排序</div>
                     </div>

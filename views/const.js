@@ -5,9 +5,18 @@ const CONST = {
         RANDOM: 'random'
     },
     DATA_TYPE: {
-        DEFAULTS: 'all',
-        RECORD: 'record',
-        EVENT: 'event'
+        DEFAULTS: {
+            value: 'all',
+            label: '数据类型'
+        },
+        RECORD: {
+            value: 'record',
+            label: '记录类型'
+        },
+        EVENT: {
+            value: 'event',
+            label: '日记类型'
+        }
     },
     DATA: {
         DEFAULTS: [],
