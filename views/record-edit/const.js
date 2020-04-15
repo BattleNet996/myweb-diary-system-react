@@ -1,25 +1,4 @@
 const CONST = {
-    PROCESS_TARGET: {
-        DEFAULTS: {
-            id: null,
-            name: '所有'
-        },
-        DEMO: {
-            id: 'gwy',
-            name: '公务员'
-        }
-    },
-    PAGE_STATUS: {
-        DEFAULTS: 'list',
-        LIST: 'list',
-        SEARCH: 'search',
-        EDIT: 'edit'
-    },
-    PAGE_EDIT_STATUS: {
-        DEFAULTS: 'edit',
-        ADD: 'add',
-        EDIT: 'edit'
-    },
     DATA: {
         DEFAULTS: [],
         DEMO: [{
