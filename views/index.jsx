@@ -68,7 +68,6 @@ class MainComponent extends React.Component {
         const handle = async ({ value, label }) => {
             self.setState({
                 pageNo: 1,
-                sort: CONST.SORT.DEFAULTS.value,
                 tag: 'all',
                 dataType: value
             })
@@ -87,7 +86,6 @@ class MainComponent extends React.Component {
         const handle = async ({ value, label }) => {
             self.setState({
                 pageNo: 1,
-                dataType: CONST.DATA_TYPE.DEFAULTS.value,
                 tag: 'all',
                 sort: value
             })

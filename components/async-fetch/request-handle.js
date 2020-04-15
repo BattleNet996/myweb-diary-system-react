@@ -50,9 +50,9 @@ export const requestHandle = ({
         requestConfig.headers = initHeaders({ request: requestContent })
     }
     if (method === 'post') {
-        requestContent = parameter.body
-        requestConfig.body = JSON.stringify(parameter.body)
-        requestConfig.headers = initHeaders({ request: parameter.body })
+        requestContent = JSON.stringify(parameter.body)
+        requestConfig.body = requestContent
+        requestConfig.headers = initHeaders({ request: requestContent })
     }
 
     toast.show()
