@@ -191,7 +191,9 @@ class MainComponent extends React.Component {
                 <div className="operating-container">
 
                     <div className="operating-filter flex-start-center">
-                        <div className="filter-btn flex-center flex-rest">日期</div>
+                        <div className="filter-btn flex-center flex-rest"
+                            onClick={() => window.location.href = './date-selection/index.html'}
+                        >日期</div>
                         <div className="dividing-line"></div>
                         <div className="filter-btn flex-center flex-rest"
                             onClick={this.showTagHandle.bind(this)}
