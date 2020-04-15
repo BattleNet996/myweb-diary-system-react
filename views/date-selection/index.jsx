@@ -46,6 +46,7 @@ class DateSelection extends React.Component {
         return list.map(({ count, data, maxTimestamp, minTimestamp, name, isShowChildren }, key) => [
             <div className="date-item flex-start-center" key={key}>
                 <div className="item-name flex-rest"
+                    onClick={() => self.selectHandle(maxTimestamp, minTimestamp)}
                 >{name}</div>
                 <div className="item-count">{count}</div>
                 {!!data &&
@@ -99,7 +100,9 @@ class DateSelection extends React.Component {
 
         return upLevelList.map(({ count, data, maxTimestamp, minTimestamp, name, isShowChildren }, key) => [
             <div className="date-item flex-start-center" key={key}>
-                <div className="item-name flex-rest">{name}</div>
+                <div className="item-name flex-rest"
+                    onClick={() => self.selectHandle(maxTimestamp, minTimestamp)}
+                >{name}</div>
                 <div className="item-count">{count}</div>
                 {!!data &&
                     <div className="item-icon flex-center"
@@ -113,12 +116,18 @@ class DateSelection extends React.Component {
         ])
     }
 
+    selectHandle(maxTimestamp, minTimestamp) {
+        window.sessionStorage['rejiejay-diary-system-date-selection-maxTimestamp'] = maxTimestamp
+        window.sessionStorage['rejiejay-diary-system-date-selection-minTimestamp'] = minTimestamp
+        window.location.replace('../index.html')
+    }
+
     render() {
 
         return [
             <div className="close">
                 <div className="close-container flex-center"
-                    onClick={() => window.location.replace('../index.html')}
+                    onClick={() => selectHandle('', '')}
                 >关闭</div>
             </div>,
 

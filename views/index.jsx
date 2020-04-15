@@ -18,8 +18,10 @@ class MainComponent extends React.Component {
             list: CONST.DATA.DEFAULTS
         }
 
-        this.minTimestamp = 0
-        this.maxTimestamp = 0
+        this.minTimestamp = window.sessionStorage['rejiejay-diary-system-date-selection-minTimestamp']
+        this.maxTimestamp = window.sessionStorage['rejiejay-diary-system-date-selection-maxTimestamp']
+        window.sessionStorage['rejiejay-diary-system-date-selection-maxTimestamp'] = ''
+        window.sessionStorage['rejiejay-diary-system-date-selection-minTimestamp'] = ''
     }
 
     async componentDidMount() {
@@ -29,8 +31,21 @@ class MainComponent extends React.Component {
 
     async initList({ isRefresh }) {
         const self = this
+        const { minTimestamp, maxTimestamp } = this
         const { list, dataType, pageNo, sort, tag } = this.state
 
+        if (minTimestamp && minTimestamp !== 'null' && minTimestamp && minTimestamp !== 'null') {
+            return await fetch.get({
+                url: 'android/recordevent/getbytime',
+                query: { minTimestamp, maxTimestamp, pageNo }
+            }).then(
+                ({ data: { list, total } }) => self.setState({
+                    list: isRefresh ? list : list.concat(list),
+                    dataTotal: total
+                }),
+                error => { }
+            )
+        }
         await fetch.get({
             url: 'android/recordevent/list',
             query: {
@@ -53,8 +68,12 @@ class MainComponent extends React.Component {
         const handle = async ({ value, label }) => {
             self.setState({
                 pageNo: 1,
+                sort: CONST.SORT.DEFAULTS.value,
+                tag: 'all',
                 dataType: value
             })
+            this.minTimestamp = ''
+            this.maxTimestamp = ''
             self.initList({ isRefresh: true })
         }
         dropDownSelectPopup({
@@ -68,8 +87,12 @@ class MainComponent extends React.Component {
         const handle = async ({ value, label }) => {
             self.setState({
                 pageNo: 1,
+                dataType: CONST.DATA_TYPE.DEFAULTS.value,
+                tag: 'all',
                 sort: value
             })
+            this.minTimestamp = ''
+            this.maxTimestamp = ''
             self.initList({ isRefresh: true })
         }
         dropDownSelectPopup({
@@ -84,8 +107,12 @@ class MainComponent extends React.Component {
 
     selectTagHandle(tag) {
         const self = this
+        this.minTimestamp = ''
+        this.maxTimestamp = ''
         this.setState({
             pageNo: 1,
+            sort: CONST.SORT.DEFAULTS.value,
+            dataType: CONST.DATA_TYPE.DEFAULTS.value,
             tag
         }, () => self.initList({ isRefresh: true }))
     }
