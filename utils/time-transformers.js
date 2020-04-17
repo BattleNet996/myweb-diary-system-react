@@ -136,6 +136,20 @@ const timeTransformers = {
         var YYYYmmDDarray = YDArray[0].split('-');
 
         return new Date(YYYYmmDDarray[0], (YYYYmmDDarray[1] - 1), YYYYmmDDarray[2]).getTime();
+    },
+
+    getWeekInMonth: function getWeekInMonth(myDate) {
+        const day = myDate.getDate()
+
+        if (day <= 7) {
+            return 1;
+        } else if (day <= 14) {
+            return 2;
+        } else if (day <= 21) {
+            return 3;
+        } else {
+            return 4;
+        }
     }
 }
 

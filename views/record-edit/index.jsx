@@ -33,13 +33,24 @@ class MainComponent extends React.Component {
         if (!title) title = timeTransformers.dateToYYYYmmDDhhMM(new Date())
         if (!record) return toast.show('内容不能为空');
 
+        const nowDate = new Date()
+
+        const timestamp = nowDate.getTime()
+        const fullyear = nowDate.getFullYear()
+        const month = nowDate.getMonth() + 1
+        const week = timeTransformers.getWeekInMonth(nowDate)
+
         fetch.post({
             url: 'android/record/add',
             body: {
                 recordtitle: title,
                 recordmaterial: material,
                 recordcontent: record,
-                tag
+                tag,
+                timestamp,
+                fullyear,
+                month,
+                week
             }
         }).then(
             () => window.location.replace('./../index.html'),

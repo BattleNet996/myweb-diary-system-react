@@ -15,3 +15,5 @@ npm run build
 localStorage['rejiejay-diary-system-password']  
 localStorage['rejiejay-diary-system-token']  
 localStorage['rejiejay-diary-system-token-expired']  
+
+sessionStorage['rejiejay-diary-system-record-edit']  

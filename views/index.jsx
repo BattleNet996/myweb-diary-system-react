@@ -124,13 +124,30 @@ class MainComponent extends React.Component {
         }, () => self.initList({}))
     }
 
-    renderRecord({ recordtitle, recordmaterial, recordcontent, tag }, key) {
+    renderRecord({ androidid, recordtitle, recordmaterial, recordcontent, tag }, key) {
+        const self = this
+
+        const editRecordHandle = () => {
+            window.sessionStorage.setItem('rejiejay-diary-system-record-edit', JSON.stringify({
+                id: androidid,
+                title: recordtitle,
+                material: recordmaterial,
+                record: recordcontent,
+                tag
+            }))
+        }
+
         return (
             <div className="list-item" key={key}>
                 <div className="list-item-container">
-                    <div className="list-item-title">{recordtitle}</div>
-                    {recordmaterial && <div className="list-item-material">{recordmaterial}</div>}
+                    <div className="list-item-title"
+                        onClick={editRecordHandle}
+                    >{recordtitle}</div>
+                    {recordmaterial && <div className="list-item-material"
+                        onClick={editRecordHandle}
+                    >{recordmaterial}</div>}
                     <div className="list-item-content"
+                        onClick={editRecordHandle}
                         dangerouslySetInnerHTML={{ __html: recordcontent.replace(/\n/g, "<br>") }}
                     ></div>
                     <div className="list-item-operating flex-start-center">
@@ -147,7 +164,7 @@ class MainComponent extends React.Component {
         )
     }
 
-    renderEvent({ eventtitle, eventsituation, eventtarget, eventaction, eventresult, eventconclusion, week, timestamp }, key) {
+    renderDiary({ eventtitle, eventsituation, eventtarget, eventaction, eventresult, eventconclusion, week, timestamp }, key) {
         const getYYmmDDww = () => {
             const weeks = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
             const date = new Date(+timestamp)
@@ -236,7 +253,9 @@ class MainComponent extends React.Component {
                     <div className="operating-add flex-start-center">
                         <div className="add-btn flex-center flex-rest">日记</div>
                         <div className="dividing-line"></div>
-                        <div className="add-btn flex-center flex-rest">记录</div>
+                        <div className="add-btn flex-center flex-rest"
+                            onClick={() => window.location.replace('./record-edit/index.html')}
+                        >记录</div>
                     </div>
                 </div>
             </div>,
@@ -244,7 +263,7 @@ class MainComponent extends React.Component {
             // 列表页
             <div className="list">{list.map((val, key) => {
                 if (val.type === 'record') return self.renderRecord(val, key)
-                if (val.type === 'event') return self.renderEvent(val, key)
+                if (val.type === 'event') return self.renderDiary(val, key)
             })}</div>,
 
             // 加载更多
