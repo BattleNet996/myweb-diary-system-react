@@ -1,6 +1,7 @@
 import fetch from './../../components/async-fetch/fetch.js'
 import toast from './../../components/toast.js'
 import timeTransformers from './../../utils/time-transformers.js';
+import jsonHandle from './../../utils/json-handle.js';
 
 import CONST from './const.js';
 
@@ -19,7 +20,35 @@ class MainComponent extends React.Component {
         this.id = null
     }
 
-    async componentDidMount() { }
+    async componentDidMount() {
+        this.initPageStatus()
+    }
+
+    initPageStatus() {
+        const editStr = window.sessionStorage['rejiejay-diary-system-record-edit']
+        window.sessionStorage['rejiejay-diary-system-record-edit'] = ''
+
+        if (editStr && editStr !== 'null') {
+
+            const editVerify = jsonHandle.verifyJSONString({ jsonString: editStr })
+
+            if (editVerify.isCorrect) {
+                const edit = editVerify.data
+                this.id = edit.id
+                this.status = CONST.PAGE_STATUS.EDIT
+                this.setState({
+                    title: edit.title,
+                    material: edit.material,
+                    record: edit.record,
+                    tag: edit.tag
+                })
+            }
+
+        } else {
+            this.status = CONST.PAGE_STATUS.ADD
+        }
+    }
+
 
     saveHandle() {
         const self = this
@@ -58,11 +87,35 @@ class MainComponent extends React.Component {
         )
     }
 
-    editHandle() { }
+    editHandle() {
+        const self = this
+        const { id } = this
+        let {
+            title,
+            material,
+            record,
+            tag
+        } = this.state
+
+        if (!title) title = timeTransformers.dateToYYYYmmDDhhMM(new Date())
+        if (!record) return toast.show('内容不能为空');
+
+        fetch.post({
+            url: 'android/record/edit',
+            body: {
+                androidid: id,
+                recordtitle: title,
+                recordmaterial: material,
+                recordcontent: record,
+                tag
+            }
+        }).then(
+            () => window.location.replace('./../index.html'),
+            error => { }
+        )
+    }
 
     deleteHandle() { }
-
-    cancelHandle() { }
 
     render() {
         const self = this
@@ -119,7 +172,7 @@ class MainComponent extends React.Component {
                     ]}
                     <div class="vertical-line"></div>
                     <div class="operation-button flex-center flex-rest"
-                        onClick={this.cancelHandle.bind(this)}
+                        onClick={() => window.location.replace('./../index.html')}
                     >取消</div>
                 </div>
             </div>

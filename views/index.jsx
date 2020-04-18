@@ -135,6 +135,8 @@ class MainComponent extends React.Component {
                 record: recordcontent,
                 tag
             }))
+
+            window.location.href = './record-edit/index.html'
         }
 
         return (
@@ -254,7 +256,7 @@ class MainComponent extends React.Component {
                         <div className="add-btn flex-center flex-rest">日记</div>
                         <div className="dividing-line"></div>
                         <div className="add-btn flex-center flex-rest"
-                            onClick={() => window.location.replace('./record-edit/index.html')}
+                            onClick={() => window.location.href = './record-edit/index.html'}
                         >记录</div>
                     </div>
                 </div>
