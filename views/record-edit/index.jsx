@@ -51,7 +51,6 @@ class MainComponent extends React.Component {
         }
     }
 
-
     saveHandle() {
         const self = this
         let {
@@ -132,7 +131,6 @@ class MainComponent extends React.Component {
             title: `确认要解除删除?`,
             succeedHandle: handle
         })
-
     }
 
     selectTagHandle(tag) {
