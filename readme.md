@@ -17,3 +17,4 @@ localStorage['rejiejay-diary-system-token']
 localStorage['rejiejay-diary-system-token-expired']  
 
 sessionStorage['rejiejay-diary-system-record-edit']  
+sessionStorage['rejiejay-diary-system-diary-edit']  

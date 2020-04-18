@@ -144,6 +144,31 @@ class MainComponent extends React.Component {
         )
     }
 
+    timeStampHandle() {
+        const self = this
+        const nowYear = new Date().getFullYear()
+        const handle = data => self.setState({ timestamp: data })
+
+        const datepicker = new Rolldate({
+            el: '#picka-date',
+            format: 'YYYY-MM-DD hh:mm',
+            beginYear: nowYear,
+            endYear: nowYear + 10,
+            lang: { title: '当时时间?' },
+            confirm: function confirm(date) {
+                const timestamp = timeTransformers.YYYYmmDDhhMMToTimestamp(date)
+                handle(timestamp)
+            }
+        })
+
+        datepicker.show()
+    }
+
+    timeStampClearHandle() {
+        document.getElementById('picka-date').value = ''
+        this.setState({ timestamp: null });
+    }
+
     selectTagHandle(tag) {
         this.setState({ tag })
     }
@@ -228,6 +253,19 @@ class MainComponent extends React.Component {
                         value={conclusion}
                         onChange={({ target: { value } }) => this.setState({ conclusion: value })}
                     ></textarea>
+                </div>
+
+                <div class="edit-title">当时时间?</div>
+                <div class="edit-input flex-start-center">
+                    <input readonly type="text"
+                        id="picka-date"
+                        value={timestamp ? timeTransformers.dateToYYYYmmDDhhMM(new Date(+timestamp)) : ''}
+                        placeholder="时间?"
+                        onClick={this.timeStampHandle.bind(this)}
+                    />
+                    <div class="picka-clear flex-center"
+                        onClick={this.timeStampClearHandle.bind(this)}
+                    >取消</div>
                 </div>
 
                 <div className="select-tag">
