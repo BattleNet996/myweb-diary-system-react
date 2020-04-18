@@ -1,6 +1,7 @@
 import fetch from './../components/async-fetch/fetch.js'
 import login from './../components/login.js';
 import { dropDownSelectPopup } from './../components/drop-down-select-popup.js';
+import { confirmPopUp } from './../components/confirm-popup.js';
 
 import TagComponent from './tag.jsx';
 import CONST from './const.js';
@@ -124,6 +125,22 @@ class MainComponent extends React.Component {
         }, () => self.initList({}))
     }
 
+    deleteHandle(id) {
+        const handle = () => fetch.post({
+            url: 'android/recordevent/del',
+            body: { androidid: id }
+        }).then(
+            () => window.location.replace('./../index.html'),
+            error => { }
+        )
+
+        confirmPopUp({
+            title: `确认要解除删除?`,
+            succeedHandle: handle
+        })
+
+    }
+
     renderRecord({ androidid, recordtitle, recordmaterial, recordcontent, tag }, key) {
         const self = this
 
@@ -154,7 +171,9 @@ class MainComponent extends React.Component {
                     ></div>
                     <div className="list-item-operating flex-start-center">
                         <div className="operating-tag flex-rest">{tag || '全部'}</div>
-                        <div className="operating-del flex-center">
+                        <div className="operating-del flex-center"
+                            onClick={() => self.deleteHandle(androidid)}
+                        >
                             <svg width="16" height="16" t="1586829128722" class="icon" viewBox="0 0 1024 1024">
                                 <path fill="#606266" d="M412 744c-19.8 0-36-16.2-36-36V500c0-19.8 16.2-36 36-36s36 16.2 36 36v208c0 19.8-16.2 36-36 36zM612 744c-19.8 0-36-16.2-36-36V500c0-19.8 16.2-36 36-36s36 16.2 36 36v208c0 19.8-16.2 36-36 36z"></path>
                                 <path fill="#606266" d="M923.8 248H736v-82c0-56.2-45.8-102-102-102H390c-56.2 0-102 45.8-102 102v82H100.2C80.3 248 64 264.2 64 284s16.3 36 36.2 36H192v518c0 16.4 3.2 32.4 9.6 47.5 6.1 14.5 14.9 27.6 26.1 38.8 11.2 11.2 24.2 20 38.8 26.1 15.1 6.4 31.1 9.6 47.5 9.6h396c16.4 0 32.4-3.2 47.5-9.6 14.5-6.1 27.6-14.9 38.8-26.1 11.2-11.2 20-24.2 26.1-38.8 6.4-15.1 9.6-31.1 9.6-47.5V320h91.8c19.9 0 36.2-16.2 36.2-36s-16.3-36-36.2-36zM360 166c0-16.6 13.4-30 30-30h244c16.6 0 30 13.4 30 30v82H360v-82z m400 672c0 27.6-22.4 50-50 50H314c-27.6 0-50-22.4-50-50V320h496v518z"></path>
@@ -198,7 +217,9 @@ class MainComponent extends React.Component {
                     {/* image */}
                     <div className="list-item-operating flex-start-center">
                         <div className="operating-timestamp flex-rest">{getYYmmDDww()}</div>
-                        <div className="operating-del flex-center">
+                        <div className="operating-del flex-center"
+                            onClick={() => self.deleteHandle(androidid)}
+                        >
                             <svg width="16" height="16" t="1586829128722" class="icon" viewBox="0 0 1024 1024">
                                 <path fill="#606266" d="M412 744c-19.8 0-36-16.2-36-36V500c0-19.8 16.2-36 36-36s36 16.2 36 36v208c0 19.8-16.2 36-36 36zM612 744c-19.8 0-36-16.2-36-36V500c0-19.8 16.2-36 36-36s36 16.2 36 36v208c0 19.8-16.2 36-36 36z"></path>
                                 <path fill="#606266" d="M923.8 248H736v-82c0-56.2-45.8-102-102-102H390c-56.2 0-102 45.8-102 102v82H100.2C80.3 248 64 264.2 64 284s16.3 36 36.2 36H192v518c0 16.4 3.2 32.4 9.6 47.5 6.1 14.5 14.9 27.6 26.1 38.8 11.2 11.2 24.2 20 38.8 26.1 15.1 6.4 31.1 9.6 47.5 9.6h396c16.4 0 32.4-3.2 47.5-9.6 14.5-6.1 27.6-14.9 38.8-26.1 11.2-11.2 20-24.2 26.1-38.8 6.4-15.1 9.6-31.1 9.6-47.5V320h91.8c19.9 0 36.2-16.2 36.2-36s-16.3-36-36.2-36zM360 166c0-16.6 13.4-30 30-30h244c16.6 0 30 13.4 30 30v82H360v-82z m400 672c0 27.6-22.4 50-50 50H314c-27.6 0-50-22.4-50-50V320h496v518z"></path>

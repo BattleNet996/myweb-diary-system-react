@@ -2,6 +2,7 @@ import fetch from './../../components/async-fetch/fetch.js'
 import toast from './../../components/toast.js'
 import timeTransformers from './../../utils/time-transformers.js';
 import jsonHandle from './../../utils/json-handle.js';
+import { confirmPopUp } from './../../components/confirm-popup.js';
 
 import CONST from './const.js';
 
@@ -115,7 +116,23 @@ class MainComponent extends React.Component {
         )
     }
 
-    deleteHandle() { }
+    deleteHandle() {
+        const { id } = this
+
+        const handle = () => fetch.post({
+            url: 'android/recordevent/del',
+            body: { androidid: id }
+        }).then(
+            () => window.location.replace('./../index.html'),
+            error => { }
+        )
+
+        confirmPopUp({
+            title: `确认要解除删除?`,
+            succeedHandle: handle
+        })
+
+    }
 
     render() {
         const self = this

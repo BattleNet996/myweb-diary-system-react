@@ -46,7 +46,7 @@ const reEnterPassword = async() => {
         window.fetch(`${config.origin}login/rejiejay`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            body: { password }
+            body: JSON.stringify({ password })
         }).then(
             response => response.json(),
             error => ({ result: 233, data: null, message: error })
@@ -90,7 +90,7 @@ const reAuthPassword = () => {
     window.fetch(`${config.origin}/login/refresh/rejiejay`, {
         method: 'POST',
         headers: initHeaders({ request: { password } }),
-        body: { password }
+        body: JSON.stringify({ password })
     }).then(
         response => response.json(),
         error => ({ result: 233, data: null, message: error })
