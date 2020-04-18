@@ -185,7 +185,24 @@ class MainComponent extends React.Component {
         )
     }
 
-    renderDiary({ eventtitle, eventsituation, eventtarget, eventaction, eventresult, eventconclusion, week, timestamp }, key) {
+    renderDiary({ androidid, eventtitle, eventsituation, eventtarget, eventaction, eventresult, eventconclusion, week, timestamp, tag }, key) {
+
+        const editDiaryHandle = () => {
+            window.sessionStorage.setItem('rejiejay-diary-system-diary-edit', JSON.stringify({
+                id: androidid,
+                title: eventtitle,
+                situation: eventsituation,
+                target: eventtarget,
+                action: eventaction,
+                result: eventresult,
+                conclusion: eventconclusion,
+                timestamp,
+                tag
+            }))
+
+            window.location.href = './diary-edit/index.html'
+        }
+
         const getYYmmDDww = () => {
             const weeks = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
             const date = new Date(+timestamp)
@@ -196,8 +213,12 @@ class MainComponent extends React.Component {
         return (
             <div className="list-item" key={key}>
                 <div className="list-item-container">
-                    <div className="list-item-title">{eventtitle}</div>
-                    <div className="item-events-content">
+                    <div className="list-item-title"
+                        onClick={editDiaryHandle}
+                    >{eventtitle}</div>
+                    <div className="item-events-content"
+                        onClick={editDiaryHandle}
+                    >
                         <div className="item-content-description"
                             dangerouslySetInnerHTML={{ __html: `情况: ${eventsituation.replace(/\n/g, "<br>")}` }}
                         ></div>
@@ -274,7 +295,9 @@ class MainComponent extends React.Component {
                     </div>
 
                     <div className="operating-add flex-start-center">
-                        <div className="add-btn flex-center flex-rest">日记</div>
+                        <div className="add-btn flex-center flex-rest"
+                            onClick={() => window.location.href = './diary-edit/index.html'}
+                        >日记</div>
                         <div className="dividing-line"></div>
                         <div className="add-btn flex-center flex-rest"
                             onClick={() => window.location.href = './record-edit/index.html'}

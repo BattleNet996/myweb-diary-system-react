@@ -3,6 +3,7 @@ import toast from './../../components/toast.js'
 import timeTransformers from './../../utils/time-transformers.js';
 import jsonHandle from './../../utils/json-handle.js';
 import { confirmPopUp } from './../../components/confirm-popup.js';
+import TagComponent from './../../components/tag-selection/index.jsx';
 
 import CONST from './const.js';
 
@@ -70,7 +71,6 @@ class MainComponent extends React.Component {
 
         const nowDate = timestamp ? new Date(+timestamp) : new Date()
 
-        const timestamp = nowDate.getTime()
         const fullyear = nowDate.getFullYear()
         const month = nowDate.getMonth() + 1
         const week = timeTransformers.getWeekInMonth(nowDate)
@@ -85,7 +85,7 @@ class MainComponent extends React.Component {
                 eventresult: result,
                 eventconclusion: conclusion,
                 tag,
-                timestamp,
+                timestamp: nowDate.getTime(),
                 fullyear,
                 month,
                 week
@@ -98,6 +98,7 @@ class MainComponent extends React.Component {
 
     editHandle() {
         const self = this
+        const { id } = this
         let {
             title,
             situation,
@@ -117,7 +118,6 @@ class MainComponent extends React.Component {
 
         const nowDate = timestamp ? new Date(+timestamp) : new Date()
 
-        const timestamp = nowDate.getTime()
         const fullyear = nowDate.getFullYear()
         const month = nowDate.getMonth() + 1
         const week = timeTransformers.getWeekInMonth(nowDate)
@@ -125,6 +125,7 @@ class MainComponent extends React.Component {
         fetch.post({
             url: 'android/event/edit',
             body: {
+                androidid: id,
                 eventtitle: title,
                 eventsituation: situation,
                 eventtarget: target,
@@ -132,7 +133,7 @@ class MainComponent extends React.Component {
                 eventresult: result,
                 eventconclusion: conclusion,
                 tag,
-                timestamp,
+                timestamp: nowDate.getTime(),
                 fullyear,
                 month,
                 week
