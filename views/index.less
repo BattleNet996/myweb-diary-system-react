@@ -4,6 +4,7 @@
 @import './input-popup.less';
 @import './confirm-popup.less';
 @import './drop-down-select-popup.less';
+@import './tag-selection.less';
 
 @black1: #303133;
 @black2: #606266;
@@ -121,52 +122,5 @@ body {
         height          : 45px;
         border          : 1px solid #ddd;
         background-color: #fff;
-    }
-}
-
-.tag {
-    position  : fixed;
-    left      : 0px;
-    top       : 0px;
-    width     : 100%;
-    height    : 100%;
-    z-index   : 2;
-    background: #f1f1f1;
-
-    .tag-add {
-        padding: 15px 0px;
-
-        .tag-add-container {
-            height          : 45px;
-            border-top      : 1px solid #ddd;
-            border-bottom   : 1px solid #ddd;
-            background-color: #fff;
-        }
-    }
-
-    .tag-list {
-        padding: 0px 15px;
-
-        .list-item {
-            padding-bottom: 15px;
-            border-top    : 1px solid #ddd;
-
-            .list-item-container {
-                height       : 45px;
-                border-bottom: 1px solid #ddd;
-                border-left  : 1px solid #ddd;
-                border-right : 1px solid #ddd;
-                background   : #fff;
-            }
-
-            .list-item-name {
-                padding: 0px 15px;
-            }
-
-            .list-item-del {
-                border-left: 1px solid #ddd;
-                padding    : 0px 15px;
-            }
-        }
     }
 }

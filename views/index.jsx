@@ -2,8 +2,8 @@ import fetch from './../components/async-fetch/fetch.js'
 import login from './../components/login.js';
 import { dropDownSelectPopup } from './../components/drop-down-select-popup.js';
 import { confirmPopUp } from './../components/confirm-popup.js';
+import TagComponent from './../components/tag-selection/index.jsx';
 
-import TagComponent from './tag.jsx';
 import CONST from './const.js';
 
 class MainComponent extends React.Component {

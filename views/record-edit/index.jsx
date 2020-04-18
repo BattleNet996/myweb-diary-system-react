@@ -3,6 +3,7 @@ import toast from './../../components/toast.js'
 import timeTransformers from './../../utils/time-transformers.js';
 import jsonHandle from './../../utils/json-handle.js';
 import { confirmPopUp } from './../../components/confirm-popup.js';
+import TagComponent from './../../components/tag-selection/index.jsx';
 
 import CONST from './const.js';
 
@@ -134,9 +135,13 @@ class MainComponent extends React.Component {
 
     }
 
+    selectTagHandle(tag) {
+        this.setState({ tag })
+    }
+
     render() {
         const self = this
-        const { title, material, record } = this.state
+        const { title, material, record, tag } = this.state
 
         const status = this.status
 
@@ -165,6 +170,13 @@ class MainComponent extends React.Component {
                         onChange={({ target: { value } }) => this.setState({ record: value })}
                     ></textarea>
                 </div>
+
+                <div className="select-tag">
+                    <div className="select-tag-container flex-center"
+                        onClick={() => self.refs.tag.show()}
+                    >{tag ? tag : '请选择标签'}</div>
+                </div>
+
             </div>,
 
             <div class="operation">
@@ -192,7 +204,11 @@ class MainComponent extends React.Component {
                         onClick={() => window.location.replace('./../index.html')}
                     >取消</div>
                 </div>
-            </div>
+            </div>,
+
+            <TagComponent ref='tag'
+                selectHandle={this.selectTagHandle.bind(this)}
+            ></TagComponent>
         ]
     }
 }
