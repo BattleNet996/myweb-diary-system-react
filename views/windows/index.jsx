@@ -46,10 +46,12 @@ class MainComponent extends React.Component {
         }
 
         if (type === 'record-add') {
+            this.setState({ pageStatus: CONST.PAGE_STATUS.RECORD_EDIT })
             this.refs.editRecord.init()
         }
 
         if (type === 'event-add') {
+            this.setState({ pageStatus: CONST.PAGE_STATUS.DIARY_EDIT })
             this.refs.editDiary.init()
         }
     }

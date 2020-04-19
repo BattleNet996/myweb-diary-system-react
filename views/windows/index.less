@@ -5,6 +5,7 @@
 @import './confirm-popup.less';
 @import './drop-down-select-popup.less';
 @import './pagination.less';
+@import './tag-selection.less';
 
 @black1: #303133;
 @black2: #606266;
@@ -167,10 +168,10 @@ body {
         }
     }
 
-    .edit-preview {
+    .edit-other {
         padding-left: 25px;
 
-        .edit-preview-container {
+        .edit-other-container {
             width: 320px;
         }
 
@@ -181,7 +182,6 @@ body {
         .item-description {
             word-wrap       : break-word;
             padding         : 15px;
-            min-height      : 320px;
             background-color: #ffffff;
         }
 
@@ -200,17 +200,17 @@ body {
         }
     }
 
-    .preview-operating {
+    .other-operating {
         padding-bottom: 15px;
     }
 
-    .preview-operating-container {
+    .other-operating-container {
         cursor: pointer;
         height: 45px;
         border: 1px solid #ddd;
     }
 
-    .preview-operating-container:hover {
+    .other-operating-container:hover {
         color           : #fff;
         background-color: #52c41a;
     }
@@ -218,5 +218,46 @@ body {
     .close-container {
         color           : #fff;
         background-color: #1890ff;
+    }
+
+    .other-input {
+        .edit-title {
+            color         : @black1;
+            padding-bottom: 10px;
+        }
+
+        .edit-input {
+            padding-bottom: 15px;
+
+            input {
+                border    : 1px solid #ddd;
+                height    : 45px;
+                background: #fff;
+            }
+
+            textarea {
+                border    : 1px solid #ddd;
+                background: #fff;
+            }
+
+            .picka-clear {
+                height          : 47px;
+                font-size       : 12px;
+                background-color: #dadada;
+                padding         : 0px 15px;
+            }
+        }
+
+    }
+
+    .select-tag {
+        padding-bottom: 15px;
+
+
+        .select-tag-container {
+            height          : 45px;
+            background-color: #fff;
+            border    : 1px solid #ddd;
+        }
     }
 }
