@@ -170,6 +170,7 @@ class MainComponent extends React.Component {
     }
 
     selectTagHandle(tag) {
+        if (tag === 'all') tag = ''
         this.setState({ tag })
     }
 
