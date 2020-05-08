@@ -42,7 +42,7 @@ class MainComponent extends React.Component {
                 const { id, title, situation, target, action, result, conclusion, tag, timestamp } = editVerify.data
                 this.id = id
                 this.status = CONST.PAGE_STATUS.EDIT
-                this.setState({ title, situation, target, action, result, conclusion, tag })
+                this.setState({ title, situation, target, action, result, conclusion, tag, timestamp })
             }
 
         } else {
@@ -152,7 +152,7 @@ class MainComponent extends React.Component {
         const datepicker = new Rolldate({
             el: '#picka-date',
             format: 'YYYY-MM-DD hh:mm',
-            beginYear: nowYear,
+            beginYear: nowYear - 10,
             endYear: nowYear + 10,
             lang: { title: '当时时间?' },
             confirm: function confirm(date) {

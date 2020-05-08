@@ -52,6 +52,7 @@ class DiaryEditComponent extends React.Component {
             action: data.eventaction,
             result: data.eventresult,
             conclusion: data.eventconclusion,
+            timestamp: data.timestamp,
             tag: data.tag
         }))
         this.status = CONST.PAGE_EDIT_STATUS.EDIT
@@ -62,6 +63,7 @@ class DiaryEditComponent extends React.Component {
             action: data.eventaction,
             result: data.eventresult,
             conclusion: data.eventconclusion,
+            timestamp: data.timestamp,
             tag: data.tag
         })
     }
@@ -70,7 +72,7 @@ class DiaryEditComponent extends React.Component {
         const { status } = this
         if (status !== CONST.PAGE_EDIT_STATUS.EDIT) return false
 
-        const { title, situation, target, action, result, conclusion, tag } = this.state
+        const { title, situation, target, action, result, conclusion, tag, timestamp } = this.state
         const data = this.data
 
         let isDiff = false
@@ -80,6 +82,7 @@ class DiaryEditComponent extends React.Component {
         if (action !== data.action) isDiff = true
         if (result !== data.result) isDiff = true
         if (conclusion !== data.conclusion) isDiff = true
+        if (timestamp !== data.timestamp) isDiff = true
         if (tag !== data.tag) isDiff = true
         return isDiff
     }
@@ -200,7 +203,7 @@ class DiaryEditComponent extends React.Component {
         const datepicker = new Rolldate({
             el: '#picka-date',
             format: 'YYYY-MM-DD hh:mm',
-            beginYear: nowYear,
+            beginYear: nowYear - 10,
             endYear: nowYear + 10,
             lang: { title: '当时时间?' },
             confirm: function confirm(date) {
