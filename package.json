@@ -5,7 +5,7 @@
     "description": "my web task assist react",
     "main": "index.js",
     "scripts": {
-        "start": "SET NODE_ENV=development && node index.js",
+        "start": "cross-env NODE_ENV=development node index.js",
         "start:dev": "SET NODE_ENV=development && nodemon index.js",
         "build": "SET NODE_ENV=production && node build.js"
     },
@@ -48,6 +48,7 @@
         "babel-loader": "^8.0.6",
         "babel-plugin-module-resolver": "^4.0.0",
         "babel-polyfill": "6.26.0",
+        "cross-env": "^7.0.3",
         "gulp": "^4.0.2",
         "gulp-less": "^4.0.1",
         "less-plugin-clean-css": "^1.5.1",
